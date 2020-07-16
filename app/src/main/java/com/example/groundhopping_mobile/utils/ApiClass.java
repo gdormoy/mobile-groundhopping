@@ -13,7 +13,6 @@ import org.json.JSONObject;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -42,7 +41,6 @@ public class ApiClass {
                         .url(url)
                         .post(formBody)
                         .build();
-                System.out.println("Request: " + request.toString());
             } else {
                 request = new Request.Builder()
                         .url(url)
@@ -92,7 +90,6 @@ public class ApiClass {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                System.out.println("response: " + response);
                 resp = mapper.readTree(response.body().string());
             }
         });
@@ -120,6 +117,21 @@ public class ApiClass {
         formBody = RequestBody.create(JSON,user_info.toString());
         String response = setOkHttpRequest(uri, formBody, "POST");
         return response;
+    }
+
+    public static void getContests(){
+        String uri = url + "contests/getcontests";
+        setOkHttpRequest(uri, null, "GET");
+    }
+
+    public static void getTeams(){
+        String uri = url + "teams/get-teams";
+        setOkHttpRequest(uri, null, "GET");
+    }
+
+    public static void getTeam(String id){
+        String uri = url + "teams/get-team-by-id?team=" + id;
+        setOkHttpRequest(uri, null, "GET");
     }
 
     public static byte[] getSHA(String input) throws NoSuchAlgorithmException
