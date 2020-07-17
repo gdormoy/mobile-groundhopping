@@ -81,6 +81,7 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        final ApiClass apiClass = new ApiClass();
 
         final EditText usernameEditText = view.findViewById(R.id.edit_username);
         final EditText passwordEditText = view.findViewById(R.id.edit_password);
@@ -104,7 +105,7 @@ public class RegisterFragment extends Fragment {
                     try {
                         hashed_password = toHexString(getSHA(password));
                         System.out.println(hashed_password);
-                        ApiClass.register(username, hashed_password,email,birthdate);
+                        apiClass.register(username, hashed_password,email,birthdate);
                         toast = Toast.makeText(context, "Your are now register", Toast.LENGTH_LONG);
                     } catch (NoSuchAlgorithmException e) {
                         toast = Toast.makeText(context, "Unexpected Error", Toast.LENGTH_LONG);
@@ -119,6 +120,7 @@ public class RegisterFragment extends Fragment {
                     Toast toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
                     toast.show();
                 }
+                apiClass.resetResp();
             }
         });
     }

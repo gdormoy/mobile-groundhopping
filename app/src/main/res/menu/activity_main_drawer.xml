@@ -3,33 +3,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
+     <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_menu_camera"
+        android:title="@string/menu_home" />
+    <item
+        android:id="@+id/nav_login"
+        android:icon="@drawable/ic_menu_login"
+        android:title="@string/menu_login"
+        android:visible="true"/>
+    <item
+        android:id="@+id/nav_gallery"
+        android:icon="@drawable/ic_menu_gallery"
+        android:title="@string/menu_gallery" />
+    <item
+        android:id="@+id/nav_slideshow"
+        android:icon="@drawable/ic_menu_slideshow"
+        android:title="@string/menu_slideshow" />
+    <item
+        android:id="@+id/nav_stadiums"
+        android:icon="@drawable/ic_menu_stadiums"
+        android:title="@string/menu_stadiums" />
+    <item
+        android:id="@+id/nav_contests"
+        android:icon="@drawable/ic_menu_contests"
+        android:title="@string/menu_contests" />
+    <item
+        android:id="@+id/nav_teams"
+        android:icon="@drawable/ic_menu_teams"
+        android:title="@string/menu_teams" />
+    <item
+        android:id="@+id/nav_get_winner"
+        android:icon="@drawable/ic_menu_get_winner"
+        android:title="@string/menu_get_winner" />
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
-        <item
-            android:id="@+id/nav_login"
-            android:icon="@drawable/ic_menu_login"
-            android:title="@string/menu_login"
-            android:visible="true"/>
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
-        <item
-            android:id="@+id/nav_contests"
-            android:icon="@drawable/ic_menu_contests"
-            android:title="@string/menu_contests" />
-        <item
-            android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_menu_logout"
-            android:title="@string/menu_logout"
-            android:visible="false" />
-    </group>
+    <item
+        android:id="@+id/nav_road_map"
+        android:icon="@drawable/ic_menu_road_map"
+        android:title="@string/menu_road_map" />
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/ic_menu_logout"
+        android:title="@string/menu_logout"
+        android:visible="false" />
 </menu>

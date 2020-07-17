@@ -77,14 +77,14 @@ public class ContestsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         LinearLayout contests = view.findViewById(R.id.contests_list);
-        ArrayList<View> mArrData = new ArrayList<>();
         JsonNode res = null;
 
-        ApiClass.getContests();
+        apiClass.getContests();
         do {
             res = apiClass.getResp();
         } while (res == null);
         System.out.println("Contests Response " + res);
+        apiClass.resetResp();
         int i = 0;
         for (final JsonNode element: res.get("body")){
             i++;
@@ -93,6 +93,7 @@ public class ContestsFragment extends Fragment {
             button.setText(element.get("Description").asText());
 
             button.setOnClickListener(new View.OnClickListener() {
+                String id = element.get("ID").asText();
                 String desc = element.get("Description").asText();
                 String startDate = element.get("StartDate").asText();
                 String team1Score = element.get("Team1Score").asText();
@@ -103,6 +104,7 @@ public class ContestsFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Bundle result = new Bundle();
+                    result.putString("id", id);
                     result.putString("description", desc);
                     result.putString("startDate", startDate);
                     result.putString("team1Score", team1Score);
@@ -116,9 +118,6 @@ public class ContestsFragment extends Fragment {
                             .beginTransaction()
                             .replace(R.id.contest_layout, contestFragment)
                             .commit();
-//                    getChildFragmentManager().setFragmentResult("requestKey", result);
-//                    getParentFragmentManager().setFragmentResult("requestKey", result);
-//                    Navigation.findNavController(view).navigate(R.id.nav_contest);
                 }
             });
             button.setId(i);

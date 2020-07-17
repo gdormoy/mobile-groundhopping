@@ -21,6 +21,7 @@ public class LoginDataSource {
 
     public Result<LoggedInUser> login(String username, String password) {
         String hashed_password = "";
+        JsonNode res = null;
         try {
              hashed_password = toHexString(getSHA(password));
             System.out.println(hashed_password);
@@ -29,12 +30,10 @@ public class LoginDataSource {
         }
         try {
             ApiClass.connection(username, hashed_password);
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            JsonNode res = apiClass.getResp();
+            do {
+                res = apiClass.getResp();
+            } while (res == null);
+            apiClass.resetResp();
 
             System.out.println("res : " + res);
             LoggedInUser User =

@@ -42,10 +42,28 @@
         tools:layout="@layout/fragment_register" />
 
     <fragment
-        android:id="@+id/nav_team"
-        android:name="com.example.groundhopping_mobile.ui.team.TeamFragment"
-        android:label="@string/menu_team"
-        tools:layout="@layout/fragment_team" />
+        android:id="@+id/nav_teams"
+        android:name="com.example.groundhopping_mobile.ui.team.TeamsFragment"
+        android:label="@string/menu_teams"
+        tools:layout="@layout/fragment_teams" />
+
+    <fragment
+        android:id="@+id/nav_get_winner"
+        android:name="com.example.groundhopping_mobile.ui.getwinner.GetWinnerFragment"
+        android:label="@string/menu_get_winner"
+        tools:layout="@layout/fragment_get_winner" />
+
+    <fragment
+        android:id="@+id/nav_road_map"
+        android:name="com.example.groundhopping_mobile.ui.roadmap.RoadMapFragment"
+        android:label="@string/menu_road_map"
+        tools:layout="@layout/fragment_road_map" />
+
+    <fragment
+        android:id="@+id/nav_stadiums"
+        android:name="com.example.groundhopping_mobile.ui.stadium.StadiumsFragment"
+        android:label="@string/menu_stadiums"
+        tools:layout="@layout/fragment_stadiums" />
 
     <fragment
         android:id="@+id/nav_contest"

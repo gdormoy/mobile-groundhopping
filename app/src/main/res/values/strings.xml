@@ -10,7 +10,10 @@
     <string name="menu_home">Home</string>
     <string name="menu_login">Login</string>
     <string name="menu_register">Register</string>
-    <string name="menu_team">Team</string>
+    <string name="menu_stadiums">Stadiums</string>
+    <string name="menu_teams">Teams</string>
+    <string name="menu_get_winner">Get Winner</string>
+    <string name="menu_road_map">Road Map</string>
     <string name="menu_contests">Contests</string>
     <string name="menu_contest">Contest</string>
     <string name="menu_logout">Logout</string>

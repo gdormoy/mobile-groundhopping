@@ -4,57 +4,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.team.TeamFragment">
+    tools:context=".ui.stadium.StadiumFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/text_name"
+            android:id="@+id/stadium_name"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginStart="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
-            android:gravity="center"
             android:text="TextView"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/text_address"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:text="TextView"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_name" />
-
-        <TextView
-            android:id="@+id/text_president"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:text="TextView"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_address" />
-
-        <ImageView
-            android:id="@+id/team_logo"
+            android:id="@+id/stadium_capacity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
+            android:text="TextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stadium_name" />
+
+        <ImageView
+            android:id="@+id/stadium_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_president"
+            app:layout_constraintTop_toBottomOf="@+id/stadium_city"
             tools:src="@tools:sample/avatars" />
 
+        <TextView
+            android:id="@+id/stadium_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:text="TextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stadium_capacity" />
+
+        <TextView
+            android:id="@+id/stadium_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:text="TextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stadium_address" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

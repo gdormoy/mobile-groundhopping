@@ -28,7 +28,7 @@
 
         <LinearLayout
             android:id="@+id/contest_layout"
-            android:layout_width="200dp"
+            android:layout_width="260dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +36,7 @@
 
         <LinearLayout
             android:id="@+id/contests_list"
-            android:layout_width="200dp"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -30,55 +30,118 @@ public class ApiClass {
 
     OkHttpClient client = new OkHttpClient();
 
-    public static String setOkHttpRequest(String url, RequestBody formBody, String type) {
+    public static String setOkHttpRequest(String url, RequestBody formBody, String type, String token) {
         OkHttpClient client = new OkHttpClient();
         Request request = null;
 
         if (type.equals("POST")) {
             if (formBody != null) {
-                System.out.println(formBody);
-                request = new Request.Builder()
-                        .url(url)
-                        .post(formBody)
-                        .build();
+                if (token != null) {
+                    System.out.println(token);
+                    request = new Request.Builder()
+                            .url(url)
+                            .addHeader("Authorization", token)
+                            .post(formBody)
+                            .build();
+                } else {
+                    request = new Request.Builder()
+                            .url(url)
+                            .post(formBody)
+                            .build();
+                }
             } else {
-                request = new Request.Builder()
-                        .url(url)
-                        .build();
+                if (token != null){
+                    request = new Request.Builder()
+                            .url(url)
+                            .addHeader("Authorization", token)
+                            .build();
+                }else {
+                    request = new Request.Builder()
+                            .url(url)
+                            .build();
+                }
             }
         } else if (type.equals("GET")) {
             if(formBody == null){
-                request = new Request.Builder()
-                        .url(url)
-                        .build();
+                if (token != null){
+                    request = new Request.Builder()
+                            .url(url)
+                            .addHeader("Authorization", token)
+                            .build();
+                } else {
+                    request = new Request.Builder()
+                            .url(url)
+                            .build();
+                }
             }else{
-                request = new Request.Builder()
-                        .url(url)
-                        .post(formBody)
-                        .build();
+                if (token != null) {
+                    request = new Request.Builder()
+                            .url(url)
+                            .addHeader("Authorization", token)
+                            .post(formBody)
+                            .build();
+                } else {
+                    request = new Request.Builder()
+                            .url(url)
+                            .post(formBody)
+                            .build();
+                }
+
             }
         } else if (type.equals("PATCH")) {
             if (formBody != null) {
+                if (token != null) {
+                    request = new Request.Builder()
+                            .url(url)
+                            .addHeader("Authorization", token)
+                            .patch(formBody)
+                            .build();
+                } else {
+                    request = new Request.Builder()
+                            .url(url)
+                            .patch(formBody)
+                            .build();
+                }
+            } else {
+                if (token != null) {
+                    request = new Request.Builder()
+                            .url(url)
+                            .addHeader("Authorization", token)
+                            .method("PATCH", null)
+                            .build();
+                } else {
+                    request = new Request.Builder()
+                            .url(url)
+                            .method("PATCH", null)
+                            .build();
+                }
+            }
+        } else if (type.equals("PUT")) {
+            if (token != null) {
                 request = new Request.Builder()
                         .url(url)
-                        .patch(formBody)
+                        .addHeader("Authorization", token)
+                        .put(formBody)
                         .build();
             } else {
                 request = new Request.Builder()
                         .url(url)
-                        .method("PATCH", null)
+                        .put(formBody)
                         .build();
             }
-        } else if (type.equals("PUT")) {
-            request = new Request.Builder()
-                    .url(url)
-                    .put(formBody)
-                    .build();
         } else if (type.equals("DELETE")) {
-            request = new Request.Builder()
-                    .url(url)
-                    .delete()
-                    .build();
+            if (token != null) {
+                request = new Request.Builder()
+                        .url(url)
+                        .addHeader("Authorization", token)
+                        .delete()
+                        .build();
+            } else {
+                request = new Request.Builder()
+                        .url(url)
+                        .delete()
+                        .build();
+            }
         }
 
         client.newCall(request).enqueue(new Callback() {
@@ -103,7 +166,7 @@ public class ApiClass {
         user_auth.put("username", username);
         user_auth.put("password", password);
         formBody = RequestBody.create(JSON,user_auth.toString());
-        setOkHttpRequest(uri, formBody, "POST");
+        setOkHttpRequest(uri, formBody, "POST", null);
     }
 
     public static String register(String username, String password, String email, String birthdate) throws JSONException {
@@ -115,23 +178,47 @@ public class ApiClass {
         user_info.put("email", email);
         user_info.put("birthdate", birthdate);
         formBody = RequestBody.create(JSON,user_info.toString());
-        String response = setOkHttpRequest(uri, formBody, "POST");
+        String response = setOkHttpRequest(uri, formBody, "POST", null);
         return response;
     }
 
     public static void getContests(){
         String uri = url + "contests/getcontests";
-        setOkHttpRequest(uri, null, "GET");
+        setOkHttpRequest(uri, null, "GET", null);
     }
 
     public static void getTeams(){
         String uri = url + "teams/get-teams";
-        setOkHttpRequest(uri, null, "GET");
+        setOkHttpRequest(uri, null, "GET", null);
     }
 
     public static void getTeam(String id){
         String uri = url + "teams/get-team-by-id?team=" + id;
-        setOkHttpRequest(uri, null, "GET");
+        System.out.println(uri);
+        setOkHttpRequest(uri, null, "GET", null);
+    }
+
+    public static void getStadium(String id){
+        String uri = url + "stadiums/get-stadium-by-id?stadium=" + id;
+        System.out.println(uri);
+        setOkHttpRequest(uri, null, "GET", null);
+    }
+
+    public static void getStadiums(){
+        String uri = url + "stadiums/getstadiums";
+        setOkHttpRequest(uri, null, "GET", null);
+    }
+
+    public static void addUserContest(String contestID, String userID, String username, String token) throws JSONException {
+        String uri = url + "users/addcontest?username=" + username;
+        RequestBody formBody;
+        JSONObject body = new JSONObject();
+        System.out.println(uri);
+        System.out.println("User: "+ userID + " Contest: " + contestID + " username: " + username + " token: " + token);
+        body.put("userID", Integer.valueOf(userID));
+        body.put("ContestId", Integer.valueOf(contestID));
+        formBody = RequestBody.create(JSON,body.toString());
+        String response = setOkHttpRequest(uri, formBody, "POST", token);
     }
 
     public static byte[] getSHA(String input) throws NoSuchAlgorithmException
@@ -177,4 +264,6 @@ public class ApiClass {
     public JsonNode getResp() {
         return resp;
     }
+
+    public void resetResp() { resp = null; }
 }

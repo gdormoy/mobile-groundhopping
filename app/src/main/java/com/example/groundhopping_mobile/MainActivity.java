@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         // menu should be considered as top level destinations.
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.login,R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_logout)
+                R.id.nav_home, R.id.login,R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_stadiums, R.id.nav_contests, R.id.nav_teams, R.id.nav_logout)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        System.out.println("ON OPTION ITEM SELECTED " + item.getSubMenu());
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.nav_logout:
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         MenuItem logout = menu.findItem(R.id.nav_logout);
         MenuItem login = menu.findItem(R.id.nav_login);
         logout.setVisible(true);
+//        logout.setActionView()
         login.setVisible(false);
     }
 }
