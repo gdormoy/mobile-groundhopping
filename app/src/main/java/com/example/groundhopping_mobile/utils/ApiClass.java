@@ -33,24 +33,31 @@ public class ApiClass {
     public static String setOkHttpRequest(String url, RequestBody formBody, String type, String token) {
         OkHttpClient client = new OkHttpClient();
         Request request = null;
+        System.out.println("Request is send");
 
         if (type.equals("POST")) {
             if (formBody != null) {
                 if (token != null) {
-                    System.out.println(token);
+                    System.out.println("Token: " + token);
+                    token = token.replace("\"", "");
                     request = new Request.Builder()
                             .url(url)
                             .addHeader("Authorization", token)
                             .post(formBody)
                             .build();
+                    System.out.println("request body: " + request.body() + " header: " + request.headers());
+                    System.out.println("formbod: " + formBody);
                 } else {
+                    System.out.println("send without token");
                     request = new Request.Builder()
                             .url(url)
                             .post(formBody)
                             .build();
+                    System.out.println(request);
                 }
             } else {
                 if (token != null){
+                    token = token.replace("\"", "");
                     request = new Request.Builder()
                             .url(url)
                             .addHeader("Authorization", token)
@@ -64,6 +71,7 @@ public class ApiClass {
         } else if (type.equals("GET")) {
             if(formBody == null){
                 if (token != null){
+                    token = token.replace("\"", "");
                     request = new Request.Builder()
                             .url(url)
                             .addHeader("Authorization", token)
@@ -75,6 +83,7 @@ public class ApiClass {
                 }
             }else{
                 if (token != null) {
+                    token = token.replace("\"", "");
                     request = new Request.Builder()
                             .url(url)
                             .addHeader("Authorization", token)
@@ -91,6 +100,7 @@ public class ApiClass {
         } else if (type.equals("PATCH")) {
             if (formBody != null) {
                 if (token != null) {
+                    token = token.replace("\"", "");
                     request = new Request.Builder()
                             .url(url)
                             .addHeader("Authorization", token)
@@ -104,6 +114,7 @@ public class ApiClass {
                 }
             } else {
                 if (token != null) {
+                    token = token.replace("\"", "");
                     request = new Request.Builder()
                             .url(url)
                             .addHeader("Authorization", token)
@@ -118,6 +129,7 @@ public class ApiClass {
             }
         } else if (type.equals("PUT")) {
             if (token != null) {
+                token = token.replace("\"", "");
                 request = new Request.Builder()
                         .url(url)
                         .addHeader("Authorization", token)
@@ -131,6 +143,7 @@ public class ApiClass {
             }
         } else if (type.equals("DELETE")) {
             if (token != null) {
+                token = token.replace("\"", "");
                 request = new Request.Builder()
                         .url(url)
                         .addHeader("Authorization", token)
@@ -166,6 +179,7 @@ public class ApiClass {
         user_auth.put("username", username);
         user_auth.put("password", password);
         formBody = RequestBody.create(JSON,user_auth.toString());
+        System.out.println("formbody: " + formBody);
         setOkHttpRequest(uri, formBody, "POST", null);
     }
 
@@ -180,6 +194,32 @@ public class ApiClass {
         formBody = RequestBody.create(JSON,user_info.toString());
         String response = setOkHttpRequest(uri, formBody, "POST", null);
         return response;
+    }
+
+    public static void getUserByName(String username, String token){
+        token = token.replace("\"", "");
+        username = username.replace("\"", "");
+        String uri = url + "users/getuser?username=" + username;
+        System.out.println(uri);
+        setOkHttpRequest(uri, null, "GET", token);
+    }
+
+    public static void getUservehicules(String username, String token, String id){
+        token = token.replace("\"", "");
+        username = username.replace("\"", "");
+        String uri = url + "users/get-user-car?username=" + username + "&userID=" + id;
+        System.out.println(uri);
+        setOkHttpRequest(uri, null, "GET", token);
+    }
+
+    public static void getwinner(String homeTeam, String awayTeam) throws JSONException {
+        String uri = url + "contests/get-winner";
+        RequestBody formBody;
+        JSONObject body = new JSONObject();
+        body.put("home", Integer.valueOf(homeTeam));
+        body.put("away", Integer.valueOf(awayTeam));
+        formBody = RequestBody.create(JSON,body.toString());
+        setOkHttpRequest(uri, formBody, "POST", null);
     }
 
     public static void getContests(){
@@ -209,16 +249,27 @@ public class ApiClass {
         setOkHttpRequest(uri, null, "GET", null);
     }
 
+    public static void addUserStadium(String stadiumID, String userID, String username, String token, Integer note) throws JSONException {
+        username = username.replace("\"", "");
+        String uri = url + "users/addstadium?username=" + username;
+        RequestBody formBody;
+        JSONObject body = new JSONObject();
+        body.put("userID", Integer.valueOf(userID));
+        body.put("stadiumID", Integer.valueOf(stadiumID));
+        body.put("note", note);
+        formBody = RequestBody.create(JSON,body.toString());
+        setOkHttpRequest(uri, formBody, "POST", token);
+    }
+
     public static void addUserContest(String contestID, String userID, String username, String token) throws JSONException {
+        username = username.replace("\"", "");
         String uri = url + "users/addcontest?username=" + username;
         RequestBody formBody;
         JSONObject body = new JSONObject();
-        System.out.println(uri);
-        System.out.println("User: "+ userID + " Contest: " + contestID + " username: " + username + " token: " + token);
         body.put("userID", Integer.valueOf(userID));
         body.put("ContestId", Integer.valueOf(contestID));
         formBody = RequestBody.create(JSON,body.toString());
-        String response = setOkHttpRequest(uri, formBody, "POST", token);
+        setOkHttpRequest(uri, formBody, "POST", token);
     }
 
     public static byte[] getSHA(String input) throws NoSuchAlgorithmException

@@ -1,6 +1,7 @@
 package com.example.groundhopping_mobile.ui.stadium;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -10,14 +11,19 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.groundhopping_mobile.R;
 import com.example.groundhopping_mobile.utils.ApiClass;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.android.material.navigation.NavigationView;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 import java.io.IOException;
@@ -50,6 +56,10 @@ public class StadiumFragment extends Fragment {
     private String latitude;
     private String longitude;
     private String capacity;
+    private String username;
+    private String token;
+    private String userID;
+
 
     private ApiClass apiClass = new ApiClass();
 
@@ -112,6 +122,8 @@ public class StadiumFragment extends Fragment {
         TextView capacity = view.findViewById(R.id.stadium_capacity);
         TextView address = view.findViewById(R.id.stadium_address);
         TextView city = view.findViewById(R.id.stadium_city);
+        final TextView rate = view.findViewById(R.id.rate_field);
+        Button add = view.findViewById(R.id.add_stadium);
 
         stadiumName.setText(this.name);
         capacity.setText(this.capacity);
@@ -119,5 +131,42 @@ public class StadiumFragment extends Fragment {
         city.setText(this.city);
 
         UrlImageViewHelper.setUrlDrawable(pict, this.picture);
+
+        NavigationView navigationView = view.getRootView().findViewById(R.id.nav_view);
+        Menu menu = navigationView.getMenu();
+        MenuItem logout = menu.findItem(R.id.nav_logout);
+
+        if (logout.isVisible()) {
+            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+            this.username = sharedPref.getString("username", null);
+            this.token = sharedPref.getString("token", null);
+            this.userID = String.valueOf(sharedPref.getInt("userID", -1));
+            rate.setVisibility(View.VISIBLE);
+            add.setVisibility(View.VISIBLE);
+            add.setOnClickListener(new View.OnClickListener() {
+                Integer real_rate = 0;
+                @Override
+                public void onClick(View v) {
+                    if (rate.getText().toString().isEmpty()) {
+                        real_rate = 0;
+                    } else if (Integer.valueOf(rate.getText().toString()) > 10) {
+                        real_rate = 10;
+                    } else{
+                        real_rate = Integer.valueOf(rate.getText().toString());
+                    }
+                    try {
+                        apiClass.addUserStadium(id, userID, username, token, real_rate);
+                        do {
+                        }while (apiClass.getResp() == null);
+                        System.out.println("res: " + apiClass.getResp());
+                        Toast toast = Toast.makeText(getContext(), apiClass.getResp().get("res").asText(), Toast.LENGTH_LONG);
+                        toast.show();
+                        apiClass.resetResp();
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
     }
 }

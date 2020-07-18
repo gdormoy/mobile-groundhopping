@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.groundhopping_mobile.R;
 import com.example.groundhopping_mobile.utils.ApiClass;
@@ -167,10 +168,14 @@ public class ContestFragment extends Fragment {
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    System.out.println("Click add contest");
                     try {
                         apiClass.addUserContest(id, userID, username, token);
                         do {
-                        } while (apiClass.getResp() == null);
+                        }while (apiClass.getResp() == null);
+                        System.out.println("res: " + apiClass.getResp());
+                        Toast toast = Toast.makeText(getContext(), apiClass.getResp().get("res").asText(), Toast.LENGTH_LONG);
+                        toast.show();
                         apiClass.resetResp();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -183,11 +188,11 @@ public class ContestFragment extends Fragment {
 
                 if(date1.compareTo(today) > 0) {
                     bet.setVisibility(View.VISIBLE);
-                    add.setOnClickListener(new View.OnClickListener() {
+                    bet.setOnClickListener(new View.OnClickListener() {
 
                         @Override
                         public void onClick(View view) {
-
+                            System.out.println("add BET");
                         }
                     });
                     System.out.println(date1);

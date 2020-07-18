@@ -115,6 +115,7 @@ public class RegisterFragment extends Fragment {
                         e.printStackTrace();
                     }
                     toast.show();
+                    apiClass.resetResp();
                     getActivity().onBackPressed();
                 } else {
                     Toast toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
