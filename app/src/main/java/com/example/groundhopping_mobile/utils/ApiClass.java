@@ -216,8 +216,8 @@ public class ApiClass {
         String uri = url + "contests/get-winner";
         RequestBody formBody;
         JSONObject body = new JSONObject();
-        body.put("home", Integer.valueOf(homeTeam));
-        body.put("away", Integer.valueOf(awayTeam));
+        body.put("home", homeTeam);
+        body.put("away", awayTeam);
         formBody = RequestBody.create(JSON,body.toString());
         setOkHttpRequest(uri, formBody, "POST", null);
     }

@@ -2,13 +2,21 @@ package com.example.groundhopping_mobile.ui.getwinner;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.groundhopping_mobile.R;
+import com.example.groundhopping_mobile.utils.ApiClass;
+import com.fasterxml.jackson.databind.JsonNode;
+
+import org.json.JSONException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +33,12 @@ public class GetWinnerFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private ApiClass apiClass = new ApiClass();
+    TextView home;
+    TextView away;
+    TextView winner;
+    Button button;
 
     public GetWinnerFragment() {
         // Required empty public constructor
@@ -62,5 +76,35 @@ public class GetWinnerFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_get_winner, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        home = view.findViewById(R.id.home_team);
+        away = view.findViewById(R.id.away_team);
+        winner = view.findViewById(R.id.winner_text);
+        button = view.findViewById(R.id.winner_button);
+
+        button.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                JsonNode res = null;
+                try {
+                    apiClass.getwinner(home.getText().toString(), away.getText().toString());
+                    do {
+                    } while (apiClass.getResp() == null);
+                    res = apiClass.getResp();
+                    System.out.println(res.get("body"));
+                    winner.setText(res.get("body").asText());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
     }
 }
