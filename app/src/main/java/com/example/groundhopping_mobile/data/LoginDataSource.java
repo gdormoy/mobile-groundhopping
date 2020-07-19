@@ -29,10 +29,11 @@ public class LoginDataSource {
             e.printStackTrace();
         }
         try {
+            apiClass.resetResp();
             ApiClass.connection(username, hashed_password);
             do {
-                res = apiClass.getResp();
-            } while (res == null);
+            } while (apiClass.getResp() == null);
+            res = apiClass.getResp();
             apiClass.resetResp();
 
             System.out.println("res : " + res);

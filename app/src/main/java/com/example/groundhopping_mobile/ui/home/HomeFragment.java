@@ -8,15 +8,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.groundhopping_mobile.MainActivity;
 import com.example.groundhopping_mobile.R;
 import com.example.groundhopping_mobile.utils.ApiClass;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -69,12 +72,15 @@ public class HomeFragment extends Fragment {
         TextView money_field = view.findViewById(R.id.money_field);
         TextView email_field = view.findViewById(R.id.email_field);
         TextView credit = view.findViewById(R.id.textView7);
+        Button delete = view.findViewById(R.id.delete_account);
         credit.setVisibility(View.VISIBLE);
         LinearLayout vehicule_list = view.findViewById(R.id.vehicule_list);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(50, 20, 20, 20);
 
         if (logout.isVisible()){
+            delete.setVisibility(View.VISIBLE);
+
             SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
             this.username = sharedPref.getString("username", null);
             this.token = sharedPref.getString("token", null);
@@ -97,32 +103,48 @@ public class HomeFragment extends Fragment {
             } while (apiClass.getResp() == null);
             vehicules = apiClass.getResp();
             apiClass.resetResp();
-            Integer paddingTop = 0;
-            Integer paddingBot = 0;
-            Integer paddingLeft = 0;
-            Integer paddingRight = 0;
 
             for(int i = 0; i < vehicules.size(); i++) {
-                paddingTop += 20;
-                paddingLeft += 20;
                 System.out.println("Vehicule: " + vehicules.get(i).getClass());
                 TextView vehiculModel = new TextView(getContext());
                 TextView vehiculConsumption = new TextView(getContext());
                 TextView vehiculFuel = new TextView(getContext());
+                TextView separator = new TextView(getContext());
+
                 try {
                     vehiculModel.setText(vehicules.get(i).get("Model").asText());
                     vehiculConsumption.setText(vehicules.get(i).get("Consumption").asText());
                     vehiculFuel.setText(vehicules.get(i).get("Fuel").asText());
+                    separator.setText("----------");
 
                     vehicule_list.addView(vehiculModel, layoutParams);
                     vehicule_list.addView(vehiculConsumption, layoutParams);
                     vehicule_list.addView(vehiculFuel, layoutParams);
+                    vehicule_list.addView(separator, layoutParams);
 
                 } catch (Exception e){
                     e.printStackTrace();
                 }
             }
-        }
+            delete.setOnClickListener(new View.OnClickListener() {
 
+                @Override
+                public void onClick(View view) {
+                    apiClass.deleteUser(username, token);
+                    do {
+                    } while (apiClass.getResp() == null);
+                    apiClass.resetResp();
+                    ((MainActivity)getActivity()).logout();
+
+                    Fragment frg = null;
+
+                    frg = getFragmentManager().findFragmentById(R.id.home_frag);
+                    final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.detach(frg);
+                    ft.attach(frg);
+                    ft.commit();
+                }
+            });
+        }
     }
 }

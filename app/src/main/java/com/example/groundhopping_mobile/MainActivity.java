@@ -87,8 +87,24 @@ public class MainActivity extends AppCompatActivity {
         Menu menu = navigationView.getMenu();
         MenuItem logout = menu.findItem(R.id.nav_logout);
         MenuItem login = menu.findItem(R.id.nav_login);
+        MenuItem stadium = menu.findItem(R.id.nav_slideshow);
+        MenuItem Contest = menu.findItem(R.id.nav_gallery);
         logout.setVisible(true);
-//        logout.setActionView()
+        stadium.setVisible(true);
+        Contest.setVisible(true);
         login.setVisible(false);
+    }
+
+    public void logout() {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        Menu menu = navigationView.getMenu();
+        MenuItem logout = menu.findItem(R.id.nav_logout);
+        MenuItem login = menu.findItem(R.id.nav_login);
+        MenuItem stadium = menu.findItem(R.id.nav_slideshow);
+        MenuItem Contest = menu.findItem(R.id.nav_gallery);
+        logout.setVisible(false);
+        stadium.setVisible(false);
+        Contest.setVisible(false);
+        login.setVisible(true);
     }
 }

@@ -158,7 +158,6 @@ public class StadiumFragment extends Fragment {
                         apiClass.addUserStadium(id, userID, username, token, real_rate);
                         do {
                         }while (apiClass.getResp() == null);
-                        System.out.println("res: " + apiClass.getResp());
                         Toast toast = Toast.makeText(getContext(), apiClass.getResp().get("res").asText(), Toast.LENGTH_LONG);
                         toast.show();
                         apiClass.resetResp();

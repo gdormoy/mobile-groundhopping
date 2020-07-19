@@ -120,6 +120,7 @@ public class RegisterFragment extends Fragment {
                 } else {
                     Toast toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
                     toast.show();
+                    apiClass.resetResp();
                 }
                 apiClass.resetResp();
             }

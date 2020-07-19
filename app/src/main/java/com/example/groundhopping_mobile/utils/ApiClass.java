@@ -45,8 +45,6 @@ public class ApiClass {
                             .addHeader("Authorization", token)
                             .post(formBody)
                             .build();
-                    System.out.println("request body: " + request.body() + " header: " + request.headers());
-                    System.out.println("formbod: " + formBody);
                 } else {
                     System.out.println("send without token");
                     request = new Request.Builder()
@@ -160,7 +158,6 @@ public class ApiClass {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                System.out.println("notok");
                 e.printStackTrace();
             }
 
@@ -179,7 +176,6 @@ public class ApiClass {
         user_auth.put("username", username);
         user_auth.put("password", password);
         formBody = RequestBody.create(JSON,user_auth.toString());
-        System.out.println("formbody: " + formBody);
         setOkHttpRequest(uri, formBody, "POST", null);
     }
 
@@ -191,7 +187,9 @@ public class ApiClass {
         user_info.put("password", password);
         user_info.put("email", email);
         user_info.put("birthdate", birthdate);
+        user_info.put("role", "user");
         formBody = RequestBody.create(JSON,user_info.toString());
+        System.out.println("URL: " + uri + " body: " + user_info);
         String response = setOkHttpRequest(uri, formBody, "POST", null);
         return response;
     }
@@ -200,7 +198,6 @@ public class ApiClass {
         token = token.replace("\"", "");
         username = username.replace("\"", "");
         String uri = url + "users/getuser?username=" + username;
-        System.out.println(uri);
         setOkHttpRequest(uri, null, "GET", token);
     }
 
@@ -208,7 +205,6 @@ public class ApiClass {
         token = token.replace("\"", "");
         username = username.replace("\"", "");
         String uri = url + "users/get-user-car?username=" + username + "&userID=" + id;
-        System.out.println(uri);
         setOkHttpRequest(uri, null, "GET", token);
     }
 
@@ -234,13 +230,11 @@ public class ApiClass {
 
     public static void getTeam(String id){
         String uri = url + "teams/get-team-by-id?team=" + id;
-        System.out.println(uri);
         setOkHttpRequest(uri, null, "GET", null);
     }
 
     public static void getStadium(String id){
         String uri = url + "stadiums/get-stadium-by-id?stadium=" + id;
-        System.out.println(uri);
         setOkHttpRequest(uri, null, "GET", null);
     }
 
@@ -261,6 +255,15 @@ public class ApiClass {
         setOkHttpRequest(uri, formBody, "POST", token);
     }
 
+    public static void getUserStadium(String username, String id, String token){
+        username = username.replace("\"", "");
+        id = id.replace("\"", "");
+        token = token.replace("\"", "");
+
+        String uri = url + "users/getstadiums?username=" + username + "&userID=" + id;
+        setOkHttpRequest(uri, null, "GET", token);
+    }
+
     public static void addUserContest(String contestID, String userID, String username, String token) throws JSONException {
         username = username.replace("\"", "");
         String uri = url + "users/addcontest?username=" + username;
@@ -270,6 +273,54 @@ public class ApiClass {
         body.put("ContestId", Integer.valueOf(contestID));
         formBody = RequestBody.create(JSON,body.toString());
         setOkHttpRequest(uri, formBody, "POST", token);
+    }
+
+    public static void getUserContest(String username, String id, String token){
+        username = username.replace("\"", "");
+        id = id.replace("\"", "");
+        token = token.replace("\"", "");
+
+        String uri = url + "users/getcontests?username=" + username + "&userID=" + id;
+        setOkHttpRequest(uri, null, "GET", token);
+    }
+
+    public static void removeUserStadium(String username, String userid, String stadiumid, String token) throws JSONException {
+        username = username.replace("\"", "");
+        userid = userid.replace("\"", "");
+        stadiumid = stadiumid.replace("\"", "");
+        token = token.replace("\"", "");
+        String uri = url + "users/delete-user-stadium?username=" + username;
+
+        RequestBody formBody;
+        JSONObject body = new JSONObject();
+        body.put("userID", Integer.valueOf(userid));
+        body.put("stadiumID", Integer.valueOf(stadiumid));
+        formBody = RequestBody.create(JSON,body.toString());
+        System.out.println(uri);
+        setOkHttpRequest(uri, formBody, "DELETE", token);
+    }
+
+    public static void removeUserContest(String username, String userid, String contestID, String token) throws JSONException {
+        username = username.replace("\"", "");
+        userid = userid.replace("\"", "");
+        contestID = contestID.replace("\"", "");
+        token = token.replace("\"", "");
+        String uri = url + "users/delete-user-contest?username=" + username;
+
+        RequestBody formBody;
+        JSONObject body = new JSONObject();
+        body.put("userID", Integer.valueOf(userid));
+        body.put("contestID", Integer.valueOf(contestID));
+        formBody = RequestBody.create(JSON,body.toString());
+        System.out.println(uri);
+        setOkHttpRequest(uri, formBody, "DELETE", token);
+    }
+
+    public static void deleteUser(String username, String token) {
+        username = username.replace("\"", "");
+        token = token.replace("\"", "");
+        String uri = url + "users/delete-user?username=" + username;
+        setOkHttpRequest(uri, null, "DELETE", token);
     }
 
     public static byte[] getSHA(String input) throws NoSuchAlgorithmException
