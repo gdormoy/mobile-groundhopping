@@ -1,4 +1,5 @@
 package com.example.groundhopping_mobile.utils;
+import com.example.groundhopping_mobile.data.model.Stadium;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -7,7 +8,9 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -275,6 +278,40 @@ public class ApiClass {
         setOkHttpRequest(uri, formBody, "POST", token);
     }
 
+    public static void addUserbet(String contestID, String username, String ts1, String ts2, String money, String token) throws JSONException {
+        username = username.replace("\"", "");
+        String uri = url + "users/add-bet?username=" + username;
+        RequestBody formBody;
+        JSONObject body = new JSONObject();
+        body.put("contestId", Integer.valueOf(contestID));
+        body.put("ts1", Integer.valueOf(ts1));
+        body.put("ts2", Integer.valueOf(ts2));
+        body.put("money", Integer.valueOf(money));
+        formBody = RequestBody.create(JSON,body.toString());
+        setOkHttpRequest(uri, formBody, "POST", token);
+    }
+
+    public static void getCarpoolingoffer() {
+        String uri = url + "car-pooling/get-carpooling-offers";
+        setOkHttpRequest(uri, null, "GET", null);
+    }
+
+    public static void addCarpoolingoffer(String username, String token, String userID, String contestID, String address, String godate, String backdate, String price) throws JSONException {
+        username = username.replace("\"", "");
+        token = token.replace("\"", "");
+        String uri = url + "car-pooling/add-car-polling-offer/?username=" + username;
+        RequestBody formBody;
+        JSONObject body = new JSONObject();
+        body.put("userID", Integer.valueOf(userID));
+        body.put("ContestID", Integer.valueOf(contestID));
+        body.put("AddressFrom", address);
+        body.put("GoDate", godate);
+        body.put("BackDate", backdate);
+        body.put("Price", Integer.valueOf(price));
+        formBody = RequestBody.create(JSON,body.toString());
+        setOkHttpRequest(uri, formBody, "POST", token);
+    }
+
     public static void getUserContest(String username, String id, String token){
         username = username.replace("\"", "");
         id = id.replace("\"", "");
@@ -321,6 +358,27 @@ public class ApiClass {
         token = token.replace("\"", "");
         String uri = url + "users/delete-user?username=" + username;
         setOkHttpRequest(uri, null, "DELETE", token);
+    }
+
+    public static void getRequiredFuel(String consumption, String type, ArrayList<Stadium> list, JSONObject origine) throws JSONException {
+        String uri = url + "get-required-fuel";
+        JSONArray destinations = new JSONArray();
+        JSONObject destination = new JSONObject();
+        for (int i = 0; i < list.size(); i++) {
+            destination.put("latitude", list.get(i).getLatitude());
+            destination.put("longitude", list.get(i).getLongitude());
+            destinations.put(destination);
+        }
+
+        RequestBody formBody;
+        JSONObject body = new JSONObject();
+        body.put("consommation", consumption);
+        body.put("type", type);
+        body.put("origine", origine);
+        body.put("destinations", destinations);
+        System.out.println(body);
+        formBody = RequestBody.create(JSON,body.toString());
+        setOkHttpRequest(uri, formBody, "POST", null);
     }
 
     public static byte[] getSHA(String input) throws NoSuchAlgorithmException

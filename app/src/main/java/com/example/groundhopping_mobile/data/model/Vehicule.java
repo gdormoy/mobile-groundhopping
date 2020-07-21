@@ -6,6 +6,10 @@ public class Vehicule {
     private String type;
     private Double Consumption;
 
+    public Vehicule() {
+
+    }
+
     public Vehicule(Integer id, String model, String type, Double consumption) {
         this.id = id;
         this.model = model;

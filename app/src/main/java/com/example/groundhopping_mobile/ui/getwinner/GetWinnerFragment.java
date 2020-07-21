@@ -94,10 +94,12 @@ public class GetWinnerFragment extends Fragment {
                 JsonNode res = null;
                 try {
                     apiClass.getwinner(home.getText().toString(), away.getText().toString());
+                    apiClass.resetResp();
                     do {
                     } while (apiClass.getResp() == null);
                     res = apiClass.getResp();
-                    System.out.println(res.get("body"));
+                    apiClass.resetResp();
+                    System.out.println(res);
                     winner.setText(res.get("body").asText());
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -159,11 +159,18 @@ public class ContestFragment extends Fragment {
         NavigationView navigationView = view.getRootView().findViewById(R.id.nav_view);
         Menu menu = navigationView.getMenu();
         MenuItem logout = menu.findItem(R.id.nav_logout);
+        final TextView betValue = view.findViewById(R.id.bet_value);
+        final TextView hts = view.findViewById(R.id.hts);
+        final TextView ats = view.findViewById(R.id.ats);
         if (logout.isVisible()){
             SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
             this.username = sharedPref.getString("username", null);
             this.token = sharedPref.getString("token", null);
             this.userID = String.valueOf(sharedPref.getInt("userID", -1));
+            hts.setVisibility(View.VISIBLE);
+            ats.setVisibility(View.VISIBLE);
+            bet.setVisibility(View.VISIBLE);
+            betValue.setVisibility(View.VISIBLE);
             add.setVisibility(View.VISIBLE);
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -192,7 +199,19 @@ public class ContestFragment extends Fragment {
 
                         @Override
                         public void onClick(View view) {
-                            System.out.println("add BET");
+                            String htsvalue = hts.getText().toString();
+                            String atsvalue = ats.getText().toString();
+                            String value = betValue.getText().toString();
+                            System.out.println("add BET " + value);
+                            apiClass.resetResp();
+                            try {
+                                apiClass.addUserbet(id, username, htsvalue, atsvalue, value, token);
+                                do {
+                                }while (apiClass.getResp() == null);
+                                apiClass.resetResp();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                     System.out.println(date1);

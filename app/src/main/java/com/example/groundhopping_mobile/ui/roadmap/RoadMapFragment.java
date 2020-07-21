@@ -21,12 +21,16 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.groundhopping_mobile.MainActivity;
 import com.example.groundhopping_mobile.R;
 import com.example.groundhopping_mobile.data.model.Stadium;
 import com.example.groundhopping_mobile.data.model.Vehicule;
 import com.example.groundhopping_mobile.utils.ApiClass;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.android.material.navigation.NavigationView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -94,16 +98,17 @@ public class RoadMapFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         JsonNode stadiums = null;
+
         final ArrayList<Stadium> list = new ArrayList<Stadium>();
-        final ArrayList<Vehicule> vehiculelist = new ArrayList<Vehicule>();
+        final Vehicule vehicule = new Vehicule();
 
-        TextView vehiculecomsumption = view.findViewById(R.id.vehiculeconsumption);
-        TextView vehiculetype = view.findViewById(R.id.vehiculetype);
+        final TextView vehiculecomsumption = view.findViewById(R.id.vehiculeconsumption);
+        final TextView vehiculetype = view.findViewById(R.id.vehiculetype);
 
-        TextView comsumption = view.findViewById(R.id.text_comsumption);
-        TextView price = view.findViewById(R.id.text_price);
-        TextView distance = view.findViewById(R.id.text_distance);
-        TextView submit = view.findViewById(R.id.button_submit);
+        final TextView comsumption = view.findViewById(R.id.text_comsumption);
+        final TextView price = view.findViewById(R.id.text_price);
+        final TextView distance = view.findViewById(R.id.text_distance);
+        Button submit = view.findViewById(R.id.button_submit);
 
         LinearLayout stadiumLayout = view.findViewById(R.id.stadiums_list_layout);
         LinearLayout vehiculeLayout = view.findViewById(R.id.vehicule_list_layout);
@@ -159,8 +164,6 @@ public class RoadMapFragment extends Fragment {
             apiClass.resetResp();
             if (vehicules.size() > 0){
                 vehiculeLayout.setVisibility(View.VISIBLE);
-                vehiculecomsumption.setVisibility(View.GONE);
-                vehiculetype.setVisibility(View.GONE);
                 for(int i = 0; i < vehicules.size(); i++) {
                     final Button vehiculebutton = new Button(getContext());
                     vehiculebutton.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -170,30 +173,44 @@ public class RoadMapFragment extends Fragment {
 
                         @Override
                         public void onClick(View view) {
-                            Vehicule vehicule = new Vehicule(
-                                    vehicules.get(finalI).get("ID").asInt(),
-                                    vehicules.get(finalI).get("Model").asText(),
-                                    vehicules.get(finalI).get("Fuel").asText(),
-                                    vehicules.get(finalI).get("Consumption").asDouble()
-                            );
-
-                            if (vehiculebutton.getBackground().getAlpha() == 255) {
-                                vehiculebutton.getBackground().setAlpha(20);
-                                vehiculelist.add(vehicule);
-                                vehiculebutton.setId(vehiculelist.size() - 1);
-                            } else {
-                                vehiculelist.remove(vehiculebutton.getId());
-                                vehiculebutton.getBackground().setAlpha(255);
-                            }
+                            vehicule.setId(vehicules.get(finalI).get("ID").asInt());
+                            vehicule.setModel(vehicules.get(finalI).get("Model").asText());
+                            vehicule.setType(vehicules.get(finalI).get("Fuel").asText());
+                            vehicule.setConsumption(vehicules.get(finalI).get("Consumption").asDouble());
+                            vehiculetype.setText(vehicule.getType());
+                            vehiculecomsumption.setText(vehicule.getConsumption().toString());
                         }
                     });
-                    stadiumLayout.addView(vehiculebutton);
+                    vehiculeLayout.addView(vehiculebutton);
                 }
-            } else {
-
             }
-
         }
+
+        submit.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                JSONObject origine = new JSONObject();
+                JsonNode requiredFuel = null;
+                try {
+                    origine.put("latitude", "48.8491");
+                    origine.put("longitude", "2.3896");
+                    apiClass.getRequiredFuel(vehiculecomsumption.getText().toString(), vehiculetype.getText().toString(), list, origine);
+                    do {
+                    }while (apiClass.getResp() == null);
+                    requiredFuel = apiClass.getResp();
+                    apiClass.resetResp();
+                    System.out.println(requiredFuel);
+                    comsumption.setText(requiredFuel.get("body").get("Fuel").asText() + "L");
+                    price.setText(requiredFuel.get("body").get("Price").asText() + "€");
+                    distance.setText(requiredFuel.get("body").get("Distance").asText() + "Km");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 }
