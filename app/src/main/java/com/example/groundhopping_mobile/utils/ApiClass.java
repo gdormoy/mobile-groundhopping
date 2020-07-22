@@ -143,18 +143,34 @@ public class ApiClass {
                         .build();
             }
         } else if (type.equals("DELETE")) {
-            if (token != null) {
-                token = token.replace("\"", "");
-                request = new Request.Builder()
-                        .url(url)
-                        .addHeader("Authorization", token)
-                        .delete()
-                        .build();
+            if (formBody != null) {
+                if (token != null) {
+                    token = token.replace("\"", "");
+                    request = new Request.Builder()
+                            .url(url)
+                            .addHeader("Authorization", token)
+                            .delete(formBody)
+                            .build();
+                } else {
+                    request = new Request.Builder()
+                            .url(url)
+                            .delete(formBody)
+                            .build();
+                }
             } else {
-                request = new Request.Builder()
-                        .url(url)
-                        .delete()
-                        .build();
+                if (token != null) {
+                    token = token.replace("\"", "");
+                    request = new Request.Builder()
+                            .url(url)
+                            .addHeader("Authorization", token)
+                            .delete()
+                            .build();
+                } else {
+                    request = new Request.Builder()
+                            .url(url)
+                            .delete()
+                            .build();
+                }
             }
         }
 

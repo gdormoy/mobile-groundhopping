@@ -123,23 +123,23 @@ public class RoadMapFragment extends Fragment {
             final Button button = new Button(getContext());
             button.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             button.setText(element.get("name").asText());
+            final Stadium stadium = new Stadium(
+                    Integer.valueOf(element.get("ID").asText()),
+                    element.get("name").asText(),
+                    element.get("latitude").asText(),
+                    element.get("longitude").asText()
+            );
             button.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
-                    Stadium stadium = new Stadium(
-                            Integer.valueOf(element.get("ID").asText()),
-                            element.get("name").asText(),
-                            element.get("latitude").asText(),
-                            element.get("longitude").asText()
-                    );
+
 
                     if (button.getBackground().getAlpha() == 255) {
                         button.getBackground().setAlpha(20);
                         list.add(stadium);
-                        button.setId(list.size() - 1);
                     } else {
-                        list.remove(button.getId());
+                        list.remove(stadium);
                         button.getBackground().setAlpha(255);
                     }
                 }

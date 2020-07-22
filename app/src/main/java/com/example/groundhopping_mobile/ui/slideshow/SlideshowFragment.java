@@ -2,6 +2,7 @@ package com.example.groundhopping_mobile.ui.slideshow;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -31,6 +33,7 @@ public class SlideshowFragment extends Fragment {
     private String username;
     private String token;
     private String userID;
+    final Fragment frg = this;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -96,6 +99,11 @@ public class SlideshowFragment extends Fragment {
                             do {
                             }while (apiClass.getResp() == null);
                             apiClass.resetResp();
+                            FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            if (Build.VERSION.SDK_INT >= 26) {
+                                ft.setReorderingAllowed(false);
+                            }
+                            ft.detach(frg).attach(frg).commit();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

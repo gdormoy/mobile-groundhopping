@@ -2,11 +2,13 @@ package com.example.groundhopping_mobile.ui.carpooling;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -100,6 +102,7 @@ public class carpoolingFragment extends Fragment {
         final TextView price = view.findViewById(R.id.pricecarpooling);
         Button submit = view.findViewById(R.id.addcarpooling);
         final String[] selectedcontest = new String[1];
+        final Fragment frg = this;
 
         if(logout.isVisible()) {
             SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
@@ -134,7 +137,6 @@ public class carpoolingFragment extends Fragment {
                         selectedcontest[0] = id;
                     }
                 });
-//                button.setId(Integer.valueOf(selectedcontest[0]));
                 contest.addView(button);
             }
 
@@ -149,6 +151,11 @@ public class carpoolingFragment extends Fragment {
                         do {
                         } while (apiClass.getResp() == null);
                         apiClass.resetResp();
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        if (Build.VERSION.SDK_INT >= 26) {
+                            ft.setReorderingAllowed(false);
+                        }
+                        ft.detach(frg).attach(frg).commit();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
