@@ -6,105 +6,111 @@
     android:layout_height="match_parent"
     tools:context=".ui.carpooling.carpoolingFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/contraintlayout"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <HorizontalScrollView
-            android:id="@+id/horizontalScrollView4"
-            android:layout_width="410dp"
-            android:layout_height="92dp"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scrollView3">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contraintlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:id="@+id/contestCarpooling"
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView4"
+                android:layout_width="410dp"
+                android:layout_height="92dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/scrollView3">
+
+                <LinearLayout
+                    android:id="@+id/contestCarpooling"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"></LinearLayout>
+            </HorizontalScrollView>
+
+            <ScrollView
+                android:id="@+id/scrollView3"
+                android:layout_width="409dp"
+                android:layout_height="327dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:id="@+id/offer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </ScrollView>
+
+            <EditText
+                android:id="@+id/address"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"></LinearLayout>
-        </HorizontalScrollView>
-
-        <ScrollView
-            android:id="@+id/scrollView3"
-            android:layout_width="409dp"
-            android:layout_height="327dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <LinearLayout
-                android:id="@+id/offer"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        </ScrollView>
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:hint="address"
+                android:inputType="textPersonName"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView4" />
 
-        <EditText
-            android:id="@+id/address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:ems="10"
-            android:hint="address"
-            android:inputType="textPersonName"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView4" />
+            <EditText
+                android:id="@+id/godate"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:hint="go date"
+                android:inputType="textPersonName"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/address" />
 
-        <EditText
-            android:id="@+id/godate"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:ems="10"
-            android:hint="go date"
-            android:inputType="textPersonName"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/address" />
+            <EditText
+                android:id="@+id/backdate"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:hint="back date"
+                android:inputType="textPersonName"
+                android:visibility="visible"
+                app:layout_constraintStart_toEndOf="@+id/godate"
+                app:layout_constraintTop_toBottomOf="@+id/address" />
 
-        <EditText
-            android:id="@+id/backdate"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:ems="10"
-            android:hint="back date"
-            android:inputType="textPersonName"
-            android:visibility="gone"
-            app:layout_constraintStart_toEndOf="@+id/godate"
-            app:layout_constraintTop_toBottomOf="@+id/address" />
+            <EditText
+                android:id="@+id/pricecarpooling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:hint="price"
+                android:inputType="number"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/godate" />
 
-        <EditText
-            android:id="@+id/pricecarpooling"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:ems="10"
-            android:hint="price"
-            android:inputType="number"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/godate" />
+            <Button
+                android:id="@+id/addcarpooling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="40dp"
+                android:text="submit"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/backdate" />
 
-        <Button
-            android:id="@+id/addcarpooling"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
-            android:layout_marginBottom="40dp"
-            android:text="submit"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

@@ -362,20 +362,23 @@ public class ApiClass {
 
     public static void getRequiredFuel(String consumption, String type, ArrayList<Stadium> list, JSONObject origine) throws JSONException {
         String uri = url + "get-required-fuel";
-        JSONArray destinations = new JSONArray();
-        JSONObject destination = new JSONObject();
+        JSONArray waypoints = new JSONArray();
         for (int i = 0; i < list.size(); i++) {
+            JSONObject destination = new JSONObject();
+            System.out.println("List: {latitude: " + list.get(i).getLatitude() + ", longitude: " + list.get(i).getLongitude() + "}");
             destination.put("latitude", list.get(i).getLatitude());
             destination.put("longitude", list.get(i).getLongitude());
-            destinations.put(destination);
+            waypoints.put(destination);
+            System.out.println(waypoints);
         }
+
 
         RequestBody formBody;
         JSONObject body = new JSONObject();
         body.put("consommation", consumption);
         body.put("type", type);
         body.put("origine", origine);
-        body.put("destinations", destinations);
+        body.put("destinations", waypoints);
         System.out.println(body);
         formBody = RequestBody.create(JSON,body.toString());
         setOkHttpRequest(uri, formBody, "POST", null);

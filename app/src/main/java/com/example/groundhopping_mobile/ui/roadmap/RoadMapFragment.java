@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.ColorInt;
@@ -194,6 +195,9 @@ public class RoadMapFragment extends Fragment {
                 JSONObject origine = new JSONObject();
                 JsonNode requiredFuel = null;
                 try {
+
+//                    Location location = ((MainActivity)getActivity()).getLocation();
+//                    System.out.println("latitude: " + location.getLatitude() + ", longitude: " + location.getLongitude());
                     origine.put("latitude", "48.8491");
                     origine.put("longitude", "2.3896");
                     apiClass.getRequiredFuel(vehiculecomsumption.getText().toString(), vehiculetype.getText().toString(), list, origine);
